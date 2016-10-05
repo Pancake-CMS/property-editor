@@ -1,0 +1,141 @@
+<link rel="import" href="./bower_components/polymer/polymer.html">
+<link rel="import" href="./bower_components/paper-input/paper-input.html">
+<link rel="import" href="./bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="./bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="./bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="./bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="./bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="./bower_components/paper-item/paper-item.html">
+
+<dom-module id="property-editor">
+    <style>
+        :host {
+            display: block;
+        }
+        p {
+            margin: 0;
+            font-size: 12px;
+            font-style: italic;
+        }
+    </style>
+    <template>
+
+        <template is="dom-if" if="{{_isText(data.type)}}">
+            <paper-input
+                label$="{{_toPascalCase(data.name)}}"
+                value$="{{data.value}}"
+                on-change="handleChange">
+            </paper-input>
+        </template>
+
+        <template is="dom-if" if="{{_isTextArea(data.type)}}">
+            <paper-textarea
+                label$="{{_toPascalCase(data.name)}}"
+                value$="{{data.value}}"
+                on-change="handleChange">
+            </paper-textarea>
+        </template>
+
+        <template is="dom-if" if="{{_isCheckbox(data.type)}}">
+            <paper-checkbox
+                checked$="{{data.value}}"
+                on-change="handleChange">{{_toPascalCase(data.name)}}</paper-checkbox>
+        </template>
+
+        <template is="dom-if" if="{{_isRadio(data.type)}}">
+            <paper-radio-group selected="{{data.value}}" on-paper-radio-group-changed="handleChange">
+                <template is="dom-repeat" items="[[data.options]]">
+                    <paper-radio-button name$="[[item]]">[[item]]</paper-radio-button>
+                </template>
+            </paper-radio-group>
+        </template>
+
+        <template is="dom-if" if="{{_isDropDown(data.type)}}">
+            <paper-dropdown-menu label="{{_toPascalCase(data.name)}}">
+                <paper-listbox class="dropdown-content" selected$="{{data.value}}" on-iron-select="handleChange">
+                    <template is="dom-repeat" items="[[data.options]]">
+                        <paper-item>[[item]]</paper-item>
+                    </template>
+                </paper-listbox>
+            </paper-dropdown-menu>
+        </template>
+
+        <p>{{data.description}}</p>
+    </template>
+    <script>
+        Polymer({
+            is: 'property-editor',
+
+            properties: {
+                data: {
+                    type: Object,
+                    reflectToAttribute: true,
+                    notify: true
+                }
+            },
+
+            _isText: function(type) {
+                if(type === 'text') {
+                    return true;
+                }
+                return false;
+            },
+
+            _isTextArea: function(type) {
+                if(type === 'textarea') {
+                    return true;
+                }
+                return false;
+            },
+
+            _isCheckbox: function(type) {
+                if(type === 'checkbox') {
+                    return true;
+                }
+                return false;
+            },
+
+            _isRadio: function(type) {
+                if(type === 'radio') {
+                    return true;
+                }
+                return false;
+            },
+
+            _isDropDown: function(type) {
+                if(type === 'dropdown') {
+                    return true;
+                }
+                return false;
+            },
+
+            _toPascalCase: function(s) {
+                return s.replace(/\.?([A-Z])/g, function (x,y) {
+                    return "-" + y.toLowerCase();
+                }).replace(/^_/, "");
+            },
+
+            handleChange: function(e) {
+                var value;
+                switch(this.data.type) {
+                    case 'checkbox' :
+                        value = e.target.checked;
+                        break;
+                    case 'radio' :
+                    case 'dropdown' :
+                        value = e.target.selected;
+                        break;
+                    default:
+                        value = e.target.value;
+                        break;
+                }
+                if(this.data.name) {
+                    this.fire('property-changed', {
+                        name: this.data.name,
+                        value: value
+                    });
+                }
+            }
+        });
+    </script>
+</dom-module>

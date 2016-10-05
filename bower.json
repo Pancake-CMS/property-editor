@@ -1,0 +1,26 @@
+{
+  "name": "property-editor",
+  "homepage": "https://github.com/Pancake-CMS/property-editor",
+  "authors": [
+    "Prateek Jadhwani <prateekjadhwani@users.noreply.github.com>"
+  ],
+  "description": "A web component that provides an editor for a property based on its type",
+  "main": "property-editor.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "^1.7.0",
+    "paper-input": "PolymerElements/paper-input#^1.1.20",
+    "paper-checkbox": "PolymerElements/paper-checkbox#^1.4.1",
+    "paper-radio-group": "PolymerElements/paper-radio-group#^1.2.1",
+    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^1.4.1",
+    "paper-listbox": "polymerelements/paper-listbox#^1.1.2",
+    "paper-item": "PolymerElements/paper-item#^1.2.1"
+  }
+}

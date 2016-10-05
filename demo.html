@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="import" href="./property-editor.html">
+        <style>
+            property-editor {
+                margin: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <template is="dom-bind" id="Demo">
+            <property-editor
+                data$=[[textdata]]
+                on-property-changed="handleChange"></property-editor>
+            <property-editor
+                data$=[[textareadata]]
+                on-property-changed="handleChange"></property-editor>
+            <property-editor
+                data$=[[checkboxdata1]]
+                on-property-changed="handleChange"></property-editor>
+            <property-editor
+                data$=[[checkboxdata2]]
+                on-property-changed="handleChange"></property-editor>
+            <property-editor
+                data$=[[radiodata]]
+                on-property-changed="handleChange"></property-editor>
+            <property-editor
+                data$=[[dropdowndata]]
+                on-property-changed="handleChange"></property-editor>
+        </template>
+        <script>
+            Demo.textdata = {
+                name: 'gridColumnStart',
+                value: 1,
+                type: 'text',
+                description: 'The start column location of this component'
+            };
+            Demo.textareadata = {
+                name: 'randomErrorMessage',
+                value: 'this update statement has a logic bug how can you update the user with id 6 \n and tell the update to make the id 1, the uid is unique (primary key) for the user table and you must remove the ( uid = \'1\' ) from this statement, \nor report a bug if this is from a Contributed module',
+                type: 'textarea',
+                description: 'The statement is copied from https://www.drupal.org/node/933472'
+            };
+            Demo.checkboxdata1 = {
+                name: 'isDialogBoxOpen',
+                value: true,
+                type: 'checkbox',
+                description: 'Open the dialog box by default'
+            };
+            Demo.checkboxdata2 = {
+                name: 'shouldOpenLinkInNewTab',
+                value: false,
+                type: 'checkbox',
+                description: 'Should this link be opened in a new tab?'
+            };
+            Demo.radiodata = {
+                name: 'subscribe',
+                value: 'yes',
+                type: 'radio',
+                options: [
+                        'yes',
+                        'no',
+                    ],
+                description: 'Unsubscribe option'
+            };
+            Demo.dropdowndata = {
+                name: 'selectedProduct',
+                value: '1',
+                type: 'dropdown',
+                options: [
+                        'Windows',
+                        'MacBook',
+                        'Linux'
+                    ],
+                description: 'Which Product should be shown by default'
+            };
+
+            Demo.handleChange = function(e, detail) {
+                console.log(e, detail);
+            }
+        </script>
+    </body>
+</html>
